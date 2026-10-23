@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>UI Operations Lab</title><link rel="stylesheet" href="/static/style.css"></head><body>
+<header><h1>UI Operations Lab</h1><p>Locate. Act. Assert. Diagnose.</p></header><nav><a href="/">Payment workflow</a><a href="#files">Files</a></nav>
+<section><h2>Forms and locators</h2>
+<label for="full-name">Full name</label><input id="full-name" placeholder="Enter full name" data-testid="full-name" title="Your full name">
+<label for="bio">Biography</label><textarea id="bio"></textarea>
+<label><input type="checkbox" id="terms">Accept terms</label>
+<label><input type="radio" name="plan" value="standard">Standard</label><label><input type="radio" name="plan" value="premium">Premium</label>
+<label for="country">Country</label><select id="country"><option value="in">India</option><option value="us">United States</option></select>
+<label for="skills">Skills</label><select id="skills" multiple><option value="python">Python</option><option value="api">API</option><option value="ui">UI</option></select>
+<div role="textbox" aria-label="Notes" contenteditable="true"></div>
+<img alt="Practice logo" width="24" height="24" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='teal'/%3E%3C/svg%3E">
+<button id="save" onclick="document.querySelector('#saved').textContent='Saved'">Save profile</button><output id="saved" aria-label="Save result"></output>
+</section>
+<section><h2>Mouse and keyboard</h2><button id="double" ondblclick="this.textContent='Double clicked'">Double click me</button><button id="right" oncontextmenu="event.preventDefault();this.textContent='Right clicked'">Right click me</button>
+<div id="hover-zone" class="tile">Hover here<span id="hover-note">Helpful hint</span></div>
+<div class="row"><div class="tile" id="drag" draggable="true" ondragstart="event.dataTransfer.setData('text/plain','payment')">Drag payment</div><div class="tile" id="drop" ondragover="event.preventDefault()" ondrop="event.preventDefault();this.textContent='Payment dropped'">Drop here</div></div></section>
+<section><h2>Dynamic content</h2><button id="load" onclick="setTimeout(()=>{document.querySelector('#delayed').hidden=false},150)">Load result</button><p id="delayed" hidden>Result ready</p>
+<button id="enable" onclick="setTimeout(()=>document.querySelector('#disabled').disabled=false,150)">Enable action</button><button id="disabled" disabled onclick="this.textContent='Executed'">Delayed action</button>
+<button id="timer" onclick="setTimeout(()=>document.querySelector('#timer-result').textContent='Timer finished',5000)">Start timer</button><output id="timer-result"></output></section>
+<section><h2>Tables and lists</h2><ul aria-label="Products"><li>Python course <button>Add</button></li><li>API course <button>Add</button></li><li>UI course <button>Add</button></li></ul>
+<table aria-label="Accounts"><thead><tr><th>Account</th><th>Balance</th></tr></thead><tbody><tr><td>Savings</td><td>1200</td></tr><tr><td>Current</td><td>800</td></tr></tbody></table></section>
+<section><h2>Frames and shadow DOM</h2><iframe title="Payment details" src="/frame"></iframe><practice-widget></practice-widget></section>
+<section id="files"><h2>Files and windows</h2><label for="upload">Upload document</label><input id="upload" type="file" multiple onchange="document.querySelector('#upload-result').textContent=Array.from(this.files).map(f=>f.name).join(', ')"><output id="upload-result"></output>
+<button id="choose" onclick="document.querySelector('#upload').click()">Choose file</button><a href="/download">Download payments</a><a href="/frame" target="_blank">Open payment tab</a></section>
+<section><h2>Dialogs and events</h2><button id="alert" onclick="alert('Practice alert')">Alert</button><button id="confirm" onclick="document.querySelector('#dialog-result').textContent=confirm('Continue?')?'Accepted':'Cancelled'">Confirm</button><button id="prompt" onclick="document.querySelector('#dialog-result').textContent=prompt('Your name')||'No name'">Prompt</button><output id="dialog-result"></output>
+<button id="console" onclick="console.log('practice log')">Console event</button><button id="error" onclick="setTimeout(()=>{throw new Error('Practice error')},0)">Error event</button></section>
+<section><h2>Network</h2><button id="fetch" onclick="fetch('/api/echo?q=browser').then(r=>r.json()).then(d=>document.querySelector('#network-result').textContent=JSON.stringify(d)).catch(()=>document.querySelector('#network-result').textContent='Network unavailable')">Fetch data</button><output id="network-result"></output></section>
+<footer>Local practice application — no real accounts or payments.</footer>
+<script>customElements.define('practice-widget',class extends HTMLElement{connectedCallback(){this.attachShadow({mode:'open'}).innerHTML='<label>Shadow input<input aria-label="Shadow input"></label>';}});</script>
+</body></html>

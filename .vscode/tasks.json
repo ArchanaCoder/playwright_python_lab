@@ -1,0 +1,4 @@
+{"version": "2.0.0", "tasks": [
+ {"label": "Run all tests", "type": "process", "command": "${command:python.interpreterPath}", "args": ["-m", "pytest", "--html=artifacts/report.html", "--self-contained-html"], "problemMatcher": []},
+ {"label": "Lint", "type": "process", "command": "${command:python.interpreterPath}", "args": ["-m", "ruff", "check", "."], "problemMatcher": []}
+]}

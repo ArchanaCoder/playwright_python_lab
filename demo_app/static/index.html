@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>PayFlow Practice</title><link rel="stylesheet" href="/static/style.css"></head><body>
+<header><h1>PayFlow Practice</h1><p>A local UI + API learning playground</p></header>
+<nav><a href="/">Payment workflow</a><a href="/lab">UI operations lab</a></nav>
+<section><h2>Sign in</h2><form id="login-form">
+<label for="username">Username</label><input id="username" autocomplete="username" placeholder="Your username">
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password">
+<button>Sign in</button></form><p role="status" id="login-status"></p></section>
+<section><h2>Create a payment</h2><form id="payment-form">
+<label for="name">Payment name</label><input id="name" required>
+<label for="amount">Amount</label><input id="amount" type="number" required value="100">
+<button>Create payment</button></form><p role="status" id="payment-status"></p>
+<button id="refresh">Refresh payments</button><table><thead><tr><th>Name</th><th>Amount</th><th>Action</th></tr></thead><tbody id="payments"></tbody></table></section>
+<script>
+const byId = id => document.getElementById(id);
+async function refresh(){const r=await fetch('/api/items');if(!r.ok)return;const data=await r.json();byId('payments').replaceChildren();for(const item of data.items){const row=document.createElement('tr');for(const value of [item.name,item.amount]){const td=document.createElement('td');td.textContent=value;row.append(td);}const td=document.createElement('td');const b=document.createElement('button');b.textContent='Delete';b.onclick=async()=>{await fetch('/api/items/'+item.id,{method:'DELETE'});refresh();};td.append(b);row.append(td);byId('payments').append(row);}}
+byId('login-form').onsubmit=async e=>{e.preventDefault();const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:byId('username').value,password:byId('password').value})});byId('login-status').textContent=r.ok?'Welcome, archana':'Invalid credentials';if(r.ok)refresh();};
+byId('payment-form').onsubmit=async e=>{e.preventDefault();const r=await fetch('/api/items',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:byId('name').value,amount:Number(byId('amount').value)})});byId('payment-status').textContent=r.ok?'Payment created':'Please sign in';if(r.ok)refresh();};
+byId('refresh').onclick=refresh;refresh();
+</script></body></html>

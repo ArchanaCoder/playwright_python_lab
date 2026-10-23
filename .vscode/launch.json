@@ -1,0 +1,7 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {"name": "Debug current test file", "type": "debugpy", "request": "launch", "module": "pytest", "args": ["${file}", "-v", "--headed", "-s"], "console": "integratedTerminal", "justMyCode": true},
+    {"name": "Run practice app", "type": "debugpy", "request": "launch", "module": "demo_app.app", "console": "integratedTerminal"}
+  ]
+}
